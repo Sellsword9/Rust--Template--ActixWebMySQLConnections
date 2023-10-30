@@ -6,8 +6,11 @@
 use actix_web::{get, App, HttpServer, HttpResponse, Responder}; // You may want to use web too, but template doesn't need it
 use actix_files::Files;
 use sqlx_mysql;
-use sqlx_mysql::*; 
-use sqlx::*;
+use sqlx::MySqlConnection;
+use sqlx_mysql::MySqlRow; 
+use sqlx::Connection;
+use sqlx::Executor;
+use sqlx::Row;
 
 /* ENDPOINTS */
 
@@ -21,7 +24,7 @@ async fn basic_data() -> impl Responder {
     conn.fetch_one(sqlx::query("select data from basic")).await.unwrap();
 
     // turn MySQLRow into string
-    let data = result.get::<String, _>("data");
+    let data: String = result.get::<String, _>("data");
     
     HttpResponse::Ok().body(data)
 } 
