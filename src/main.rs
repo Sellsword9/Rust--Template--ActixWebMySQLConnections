@@ -16,8 +16,11 @@ use sqlx::Row;
 
 #[get("/basic_data")] // may need to remove the last /
 async fn basic_data() -> impl Responder {
+    // root is the user, pass is the password.
+    // Change them when needed
+    let url: &str = "mysql://root:pass@localhost/rust_test_data";
     let mut conn: MySqlConnection = 
-    MySqlConnection::connect("mysql://root:@localhost/rust_test_data")
+    MySqlConnection::connect(url)
     .await
     .unwrap();
     let result: MySqlRow = 
